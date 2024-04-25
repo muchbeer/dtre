@@ -11,6 +11,7 @@ export const getBalance = async (dispatch) => {
 
     const balance = await fetchData( { url: url + '/', method: 'GET' }, dispatch);
     if (balance) {
+      console.log('The balance is : ' + JSON.stringify(balance))
       dispatch({ type: 'UPDATE_BALANCE', payload: balance });
       dispatch({ type: END_LOADING });
     }

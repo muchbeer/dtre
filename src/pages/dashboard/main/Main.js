@@ -35,8 +35,6 @@ const Main = ({ setSelectedLink, link }) => {
     return 'TZS'+ balanceInt.toLocaleString();
   }
 
-  console.log('the value of the environment variable is now : ' + process.env.REACT_APP_TEST)
-
   return (
     <Box 
      sx={{
