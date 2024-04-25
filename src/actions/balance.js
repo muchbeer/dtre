@@ -16,3 +16,14 @@ export const getBalance = async (dispatch) => {
     }
     
   };
+
+
+ export const isEmptyBalance = (obj) => {
+    for (const prop in obj) {
+      if (Object.hasOwn(obj, prop)) {
+        return false;
+      }
+    }
+  
+    return true;
+  }

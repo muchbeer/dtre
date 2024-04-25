@@ -17,7 +17,7 @@ const Main = ({ setSelectedLink, link }) => {
   useEffect(() => {
     setSelectedLink(link);
     if (users.length === 0) getClientUsers(dispatch);
-    if (balance) getBalance(dispatch)  });
+    getBalance(dispatch)  });
 
   const addComma = (balance_object) => {
     if(!balance_object) {
