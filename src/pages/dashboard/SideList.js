@@ -18,8 +18,8 @@ import { Dashboard, DriveFolderUpload, DvrOutlined, Logout, PeopleAlt, SendTimeE
 import Main from './main/Main';
 import Users from './users/Users';
 import Airtime from './airtimes/Airtime';
-import Messages from './messages/Messages';
 import Upload from './upload/Upload';
+import SendOneAirtime from './airtimes/SendOneAirtime';
 
 const drawerWidth = 240;
 
@@ -108,7 +108,7 @@ const SideList = ({ open, setOpen }) => {
         title: 'Singe Airtime',
         icon: <SendTimeExtension />,
         link: 'sendairtime',
-        component: <Messages {...{ setSelectedLink, link: 'sendairtime' }} />,
+        component: <SendOneAirtime {...{ setSelectedLink, link: 'sendairtime' }} />,
       }
     ],
     []
