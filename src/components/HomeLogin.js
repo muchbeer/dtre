@@ -21,6 +21,8 @@ const HomeLogin = () => {
         </Typography>
 
         { currentUser && navigate('/dashboard')  }
+
+
     </Box>
   )
 }

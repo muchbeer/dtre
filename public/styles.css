@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    border: 0;
+  }
+  
+  .container {
+
+    min-height: 60vh;
+    min-width: 100vw;
+    display: grid;
+    place-items: center;
+  }
+  
+  .text {
+    padding: 2rem 5rem;
+    border-radius: 50px;
+    box-shadow:  20px 20px 60px #b5b9bf,
+     -20px -20px 60px #f5fbff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.0rem;
+    color: #292b2e;
+  }

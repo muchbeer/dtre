@@ -2,18 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
 
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel='stylesheet' href='styles.css' />
 
     <title>Dtree Voucher</title>
   </head>
   <body>
     <div id="root"></div>
 
+    <div class="container">
+      <div class="text">
+        <p>&copy <span id="currentYear">2020</span> AT Developer</p>
+      </div>
+    </div>
+
+    <script>
+      const yearSpan = document.querySelector('#currentYear');
+      const currentYear = new Date();
+      yearSpan.innerText = currentYear.getFullYear();
+    </script>
+    
   </body>
 </html>
