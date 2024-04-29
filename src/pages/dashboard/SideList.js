@@ -124,9 +124,6 @@ const SideList = ({ open, setOpen }) => {
     
   };
 
-  
-  
-
   return (
     <>
       <Drawer variant="permanent" open={open}>

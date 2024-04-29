@@ -1,8 +1,8 @@
 import { END_LOADING, START_LOADING, UPDATE_ALERT, updateAlertFunction } from "./utils/commonConstant.js";
 import fetchData from "./utils/fetchData";
 
-// const url = 'http://localhost:5000/api/auth'
-const SERVER_URL=process.env.REACT_APP_BASE_SERVER_URL
+// const url_local = 'http://localhost:5000/'
+const SERVER_URL=process.env.REACT_APP_BASE_SERVER_URL;
 const url = SERVER_URL + 'api/auth'
 
 export const register = async (user, dispatch) => {

@@ -80,12 +80,11 @@ const Airtime = ({ setSelectedLink, link }) => {
 
   return  ( 
     activateBox ? 
-      (<Box  
+      (   <Box  
         sx={{
         height: 400,
         width: '100%',
           }}> 
-      
       <Typography
         variant="h5"
         component="h5"
@@ -93,6 +92,7 @@ const Airtime = ({ setSelectedLink, link }) => {
         >
           All Airtime Status
       </Typography>
+      
       <DataGrid
         rows={ airtimes_received }
         disableSelectionOnClick
@@ -103,13 +103,17 @@ const Airtime = ({ setSelectedLink, link }) => {
           },
         }}
         pageSizeOptions={[10, 20]}
-        checkboxSelection />
+        checkboxSelection />  
         <Button sx={{ marginRight: 'auto', mt: 5, mr: 10 }} 
               variant='contained'
-              onClick={ handleDownload }>Download Airtime Sent</Button>
-      </Box>) :
+              onClick={ handleDownload }>Download Airtime Sent</Button> 
+      </Box> 
+       )
+        
+         :
       
-      ( <Box 
+      ( 
+               <Box 
         sx={{
         height: 800,
         width: '90%',
@@ -136,7 +140,8 @@ const Airtime = ({ setSelectedLink, link }) => {
          pageSizeOptions={[10, 30]}
          checkboxSelection 
            /> 
-        </Box> )
+        </Box>
+        )
    )
 
 }
