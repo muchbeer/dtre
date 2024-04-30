@@ -20,6 +20,7 @@ import Users from './users/Users';
 import Airtime from './airtimes/Airtime';
 import Upload from './upload/Upload';
 import SendOneAirtime from './airtimes/SendOneAirtime';
+import UploadMessage from './messages/UploadMessage';
 
 const drawerWidth = 240;
 
@@ -99,7 +100,7 @@ const SideList = ({ open, setOpen }) => {
         component: <Airtime {...{ setSelectedLink, link: 'airtime' }} />,
       },
       {
-        title: 'Upload',
+        title: 'Upload Airtime',
         icon: <DriveFolderUpload />,
         link: 'upload',
         component: <Upload {...{ setSelectedLink, link: 'upload' }} />,
@@ -109,6 +110,12 @@ const SideList = ({ open, setOpen }) => {
         icon: <SendTimeExtension />,
         link: 'sendairtime',
         component: <SendOneAirtime {...{ setSelectedLink, link: 'sendairtime' }} />,
+      }, 
+      {
+        title: 'Upload Message',
+        icon: <DriveFolderUpload />,
+        link: 'uploadmessage',
+        component: <UploadMessage {...{ setSelectedLink, link: 'uploadmessage' }} />,
       }
     ],
     []

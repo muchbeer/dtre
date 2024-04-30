@@ -42,6 +42,12 @@ const reducer = (state, action) => {
 
       case 'UPDATE_AIRTIME_RECEIVED': 
         return {  ...state, airtimes_received : action.payload };
+
+      case 'UPDATE_MESSAGE':
+        return {  ...state, messages : action.payload };
+
+      case 'UPDATE_MESSAGE_RECEIVED':
+        return {  ...state, messages_received: action.payload };
   
       default:
         throw new Error('No matched action!');

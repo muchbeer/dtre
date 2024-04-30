@@ -118,7 +118,7 @@ const Upload = ({ setSelectedLink, link }) => {
         <Loading />  
     <div className='uploadAirtime'>
       <div className="userTitleContainer">
-      <h2 className="userTitle">Upload and View Excel Sheets</h2>
+      <h2 className="userTitle">Upload Airtime and View Excel Sheets</h2>
       
          <button className="userAddButton" 
               disabled = { sendBtnStatus }

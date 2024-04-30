@@ -11,7 +11,9 @@ const initialState = {
     balance: JSON.parse(localStorage.getItem('balance')) || null, 
     users :  [],
     airtimes: [], 
-    airtimes_received: []
+    airtimes_received: [], 
+    messages: [], 
+    messages_received: [],
   };
 
   const Context = createContext(initialState);
