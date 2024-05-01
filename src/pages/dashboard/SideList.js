@@ -14,13 +14,15 @@ import { useState } from 'react';
 import { useValue } from '../../context/ContextProvider';
 import { styled, useTheme } from '@mui/material/styles';
 import photoUrl from '../../user.jpg'
-import { Dashboard, DriveFolderUpload, DvrOutlined, Logout, PeopleAlt, SendTimeExtension } from '@mui/icons-material';
+import { Dashboard, DriveFolderUpload, DvrOutlined, Logout, PeopleAlt, SendTimeExtension, MessageOutlined
+        , AttachEmailOutlined } from '@mui/icons-material';
 import Main from './main/Main';
 import Users from './users/Users';
 import Airtime from './airtimes/Airtime';
 import Upload from './upload/Upload';
 import SendOneAirtime from './airtimes/SendOneAirtime';
 import UploadMessage from './messages/UploadMessage';
+import Messages from './messages/Messages';
 
 const drawerWidth = 240;
 
@@ -113,9 +115,15 @@ const SideList = ({ open, setOpen }) => {
       }, 
       {
         title: 'Upload Message',
-        icon: <DriveFolderUpload />,
+        icon: <AttachEmailOutlined />,
         link: 'uploadmessage',
         component: <UploadMessage {...{ setSelectedLink, link: 'uploadmessage' }} />,
+      }, 
+      {
+        title: 'Messages',
+        icon: <MessageOutlined />,
+        link: 'messages',
+        component: <Messages {...{ setSelectedLink, link: 'messages' }} />,
       }
     ],
     []
@@ -154,7 +162,8 @@ const SideList = ({ open, setOpen }) => {
                   px: 2.5,
                 }}
                 onClick={ () => {
-                dispatch( { type: 'DEACTIVATE_BOX' } ); 
+                dispatch({ type: 'DEACTIVATE_BOX' }); 
+                dispatch({ type: 'DEACTIVATE_MESSAGE_BOX' });
                  navigate(item.link) 
                      }     
                  }

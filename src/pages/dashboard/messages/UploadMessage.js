@@ -9,7 +9,7 @@ import * as Excel from 'xlsx';
 import { sendBulkSMSApi } from '../../../actions/messages';
 
 const UploadMessage = ({ setSelectedLink, link }) => {
-
+ 
     const [excelFile, setExcelFile] = useState(null);
     const [typeError, setTypeError] = useState(null);
     const [fileName, setFileName] =useState(null);
@@ -85,6 +85,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
                
         setSendBtnStatus(true);
         setExcelDisplay([]);
+        setInput({ message : '' });
               } 
 
             // submit event
@@ -218,4 +219,4 @@ const UploadMessage = ({ setSelectedLink, link }) => {
   )
 }
 
-export default UploadMessage
+export default UploadMessage;

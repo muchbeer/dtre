@@ -31,4 +31,4 @@ const AirtimeAction = ({ params }) => {
   )
 }
 
-export default AirtimeAction
+export default AirtimeAction;

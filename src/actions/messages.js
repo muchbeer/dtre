@@ -15,11 +15,11 @@ export const getMainMessages = async (dispatch) => {
   
   };
 
-  export const getAllAirtimes = async (id, dispatch) => {
+  export const getAllMessages = async (id, dispatch) => {
     const data = { id: id}
     const received_messages = await fetchData({ url: url + '/received', body: data }, dispatch);
     if( received_messages ) {
-      dispatch({ type: 'UPDATE_AIRTIME_RECEIVED', payload: received_messages })
+      dispatch({ type: 'UPDATE_MESSAGE_RECEIVED', payload: received_messages })
     }
   };
 

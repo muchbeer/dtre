@@ -28,6 +28,12 @@ const reducer = (state, action) => {
       case 'DEACTIVATE_BOX':
         return {  ...state, activateBox: false };
 
+      case 'ACTIVATE_MESSAGE_BOX':
+        return { ...state, activateMessageBox: true };
+
+      case 'DEACTIVATE_MESSAGE_BOX':
+        return { ...state, activateMessageBox: false };
+
       case 'UPDATE_USER':
         return { ...state, currentUser: action.payload };
 

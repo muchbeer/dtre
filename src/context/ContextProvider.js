@@ -7,6 +7,7 @@ const initialState = {
     loading: false,
     registered: false,
     activateBox: false,
+    activateMessageBox: false,
     alert: { open: false, severity: 'info', message: 'Test the alert if it worked' },
     balance: JSON.parse(localStorage.getItem('balance')) || null, 
     users :  [],

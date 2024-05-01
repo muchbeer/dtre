@@ -1,112 +1,151 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useValue } from '../../../context/ContextProvider';
-import { Box, Button, InputAdornment, TextField, Typography } from '@mui/material';
-import Notification from '../../../components/Notification';
-import Loading from '../../../components/Loading';
-import { sendSingleAirtimeApi } from '../../../actions/airtimes';
+import { Box, Button, Typography } from '@mui/material';
 import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
+import { getMainMessages } from '../../../actions/messages';
+import MessageAction from './MessageAction';
+import { dateFormating } from '../../../actions/airtimes';
+import * as xls from 'xlsx'; 
+import { DataGrid } from '@mui/x-data-grid';
 
-const Messages = ({ setSelectedLink, link }) => {
-  const [inputs, setInput] = useState({ phonenumber : '',  amount : '' });
-  const { state: { open, balance }, dispatch } = useValue();
+  const Messages = ({ setSelectedLink, link }) => {
+
+  const { state: { messages, messages_received, activateMessageBox }, dispatch } = useValue();
+
 
   useEffect(() => {
     setSelectedLink(link);
+    getMainMessages(dispatch);
   });
 
-  const handleInputChange = (event) => {
-    event.preventDefault();
-      setInput((prevState) => ( {
-          ...prevState, 
-          [event.target.name] : event.target.value,
+  const columns = [
+    { field: "id", headerName: "ID", width: 100, headerAlign: 'center', 
+      align: 'center' },
+    
+    { field: "user_message", 
+    headerName: "Message", width: 260, 
+    headerAlign: 'left',
+    align: 'left' },
+
+    {  field: "connect_date",  headerName: "Date Sent",  width: 300, headerAlign: 'center' , 
+        align: 'center'},
+    
+    {
+      field: "action",
+      headerName: "Action",
+      width: 280, 
+      headerAlign: 'center',
+      align: 'center',
+      renderCell: (params) => {
+        return (
+          <>
+            <MessageAction  {...{ params }} />
+          </>
+        );
+      },
+    },
+  ];
+
+  const received_message_columns = [
+    { field: "id", headerName: "ID", width: 90 },
+    { field: "phone_number", headerName: "Phone Number", width: 120, flex: 1 },
+    {  field: "message_cost",  headerName: "Price",  width: 200, flex: 1 }, 
+    {  field: "status",  headerName: "Status",  width: 200, flex: 1 }];
+
+  
+  const handleDownload = (event) => {
+      event.preventDefault();
+  
+      const rows = messages_received.map( messages => ({
+        id: messages.id,
+        phone_number: messages.phone_number,
+        message_cost: messages.message_cost,
+        status: messages.status
+  
+      }));
+  
+      try {
+        const workbook = xls.utils.book_new();
+        const worksheet = xls.utils.json_to_sheet(rows);
+    
+        xls.utils.book_append_sheet(workbook, worksheet, 'Messages');
+    
+        xls.utils.sheet_add_aoa(worksheet, [
+          ['AmountID', 'Phonenumber', 'Amount', 'Status' ],
+        ]);
+    
+        xls.writeFile(workbook, dateFormating(), { compression: true });
+      } catch (error) {
+        updateAlertFunction(dispatch, 'error', UPDATE_ALERT, error.message)
+    
       }
-   ));
   }
 
-  const handleSendAirtime = async (event) => {
-    event.preventDefault();
-    
-    const { phonenumber, amount} = inputs;
-    const balanceInt = parseInt(balance.balance);
-    const airtimeAmount = parseInt(amount);
-    
-    const data = [{ 
-      phoneNumber:  '+' + phonenumber, 
-      currencyCode:  'TZS', 
-      amount: amount}];
 
-      if(  balanceInt > airtimeAmount ) {
-        sendSingleAirtimeApi(data, dispatch)
-      }  else {
-        updateAlertFunction(dispatch, 'error' , UPDATE_ALERT, 'You do not have enough balance to send Airtime');  
-      }
-    
-    setInput({ phonenumber : '',  amount : '' } );
-
-  } 
-
-
-  return (<div>
-    <div>
-      <Notification />
-      <Loading />
-    </div>
-  
-    <Box
-  
-    display= 
-          "flex" flexDirection={"column"} 
-          maxWidth={400} 
-          alignItems={"center"} 
-          justifyContent={'center'} 
-          margin={"auto"}
-          marginTop={5}
-          padding={5}
-          borderRadius={5}
-          boxShadow={"5px 5px 10px #ccc"}
-          sx={{":hover" : {
-              boxShadow : "10px 10px 20px #ccc"
-              }
-          }}
-  >
-    <Typography variant='h3' padding={4} textAlign={'center'}> Rusha vocha </Typography>
-           
-    
-      <TextField
-        onChange={handleInputChange}
-        name='phonenumber'
-        value={inputs.phonenumber}
-        label = 'Phone Number'
-        placeholder='255754100100'
-        variant='outlined'
-        type='text'
-        required
-        helperText = {!inputs.phonenumber ? 'Phonenumber is required' : ''}
-        style={{ width: 230}}
-      />
-      <TextField
-        onChange={handleInputChange}
-        name='amount'
-        value={inputs.amount}
-        label = 'Amount'
-        placeholder='500'
-        variant='outlined' 
-        type='number'
-        sx={ { marginTop : 3 }}
-        required
-        helperText = {!inputs.amount ? 'Amount is required' : '' }
-        InputProps = {{ 
-          startAdornment: 
-          <InputAdornment  position= 'start'> TZS </InputAdornment> }}
-      />
-  
-  
-    <Button variant="outlined" type='submit'  
-            sx={ { marginTop : 4 , borderRadius : 4 }}
-            disabled= { open }
-            onClick={ handleSendAirtime }>Send Airtime</Button>
-   
-  </Box></div>
+  return (
+   activateMessageBox ? 
+      (   <Box  
+        sx={{
+        height: 400,
+        width: '100%',
+          }}> 
+      <Typography
+        variant="h5"
+        component="h5"
+        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+        >
+          All Airtime Status
+      </Typography>
+      
+      <DataGrid
+        rows={ messages_received }
+        disableSelectionOnClick
+        columns={ received_message_columns }
+        initialState={{
+        pagination: {
+        paginationModel: { page: 0, pageSize: 10 },
+          },
+        }}
+        pageSizeOptions={[10, 20]}
+        checkboxSelection />  
+        <Button sx={{ marginRight: 'auto', mt: 5, mr: 10 }} 
+              variant='contained'
+              onClick={ handleDownload }>Download Message Sent</Button> 
+      </Box> 
+       )
+        
+         :
+      
+      ( 
+               <Box 
+        sx={{
+        height: 800,
+        width: '90%',
+        position: 'relative',
+        
+           }}
+          >
+      <Typography
+        variant="h5"
+        component="h5"
+        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+         >
+           Messages Sent
+      </Typography>
+      <DataGrid
+        rows={ messages }
+        disableSelectionOnClick
+        columns={columns}
+        initialState={{
+        pagination: {
+          paginationModel: { page: 0, pageSize: 20 },
+           },
+         }}
+         pageSizeOptions={[10, 30]}
+         checkboxSelection 
+           /> 
+        </Box>
+        )
   )
 }
 
