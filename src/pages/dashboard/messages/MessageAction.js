@@ -10,8 +10,7 @@ const { dispatch } = useValue();
 const { id  } = params.row;
 
 const handleSubmit = () => {
-     
-    
+      
     dispatch( { type: 'ACTIVATE_MESSAGE_BOX' } );
     console.log('Enable airtime id fixed to : ' + id);
     getAllMessages(id, dispatch);

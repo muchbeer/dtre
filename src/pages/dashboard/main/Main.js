@@ -12,12 +12,13 @@ import { getBalance } from '../../../actions/balance.js';
 
 const Main = ({ setSelectedLink, link }) => {
 
-  const { state: { users, balance }, dispatch, } = useValue();
+  const { state: { currentUser, users, balance }, dispatch, } = useValue();
+  const user = { user: currentUser };
 
   useEffect(() => {
     setSelectedLink(link);
     if (users.length === 0) getClientUsers(dispatch);
-    getBalance(dispatch)  });
+    getBalance( user, dispatch)  });
 
   const addComma = (balance_object) => {
     if(!balance_object) {

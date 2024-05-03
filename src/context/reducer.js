@@ -34,6 +34,9 @@ const reducer = (state, action) => {
       case 'DEACTIVATE_MESSAGE_BOX':
         return { ...state, activateMessageBox: false };
 
+      case 'UPDATE_SID':
+        return { ...state, senderId: action.payload };
+
       case 'UPDATE_USER':
         return { ...state, currentUser: action.payload };
 

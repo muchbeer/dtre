@@ -2,13 +2,13 @@ import { END_LOADING, START_LOADING, UPDATE_ALERT, updateAlertFunction } from '.
 import fetchData from "./utils/fetchData.js";
 
 
-const SERVER_URL = 'http://localhost:5000/'
+const SERVER_URL = 'http://localhost:5001/'
 //const SERVER_URL=process.env.REACT_APP_BASE_SERVER_URL;
 const url = SERVER_URL + 'api/message'
 
-export const getMainMessages = async (dispatch) => {
+export const getMainMessages = async ( data, dispatch ) => {
 
-    const messages = await fetchData({ url: url + '/', method: 'GET' }, dispatch);
+    const messages = await fetchData({ url: url + '/', body: data }, dispatch);
     if (messages) {
       dispatch({ type: 'UPDATE_MESSAGE', payload: messages });
     }

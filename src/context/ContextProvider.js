@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import reducer from "./reducer";
 
+//balance: JSON.parse(localStorage.getItem('balance')) || null, 
 const initialState = {
     currentUser: null,
     openLogin: true,
@@ -8,8 +9,9 @@ const initialState = {
     registered: false,
     activateBox: false,
     activateMessageBox: false,
+    senderId: null,
     alert: { open: false, severity: 'info', message: 'Test the alert if it worked' },
-    balance: JSON.parse(localStorage.getItem('balance')) || null, 
+    balance: null, 
     users :  [],
     airtimes: [], 
     airtimes_received: [], 

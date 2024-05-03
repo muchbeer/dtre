@@ -7,15 +7,18 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import * as Excel from 'xlsx';
 import { sendBulkSMSApi } from '../../../actions/messages';
+import SenderIdMenu from './SenderIdMenu';
+import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
 
 const UploadMessage = ({ setSelectedLink, link }) => {
  
     const [excelFile, setExcelFile] = useState(null);
     const [typeError, setTypeError] = useState(null);
     const [fileName, setFileName] =useState(null);
-    const {  dispatch } = useValue();
+    const { state: { currentUser, senderId, balance },  dispatch } = useValue();
     const [excelDisplay, setExcelDisplay] = useState([]);
     const [sendBtnStatus, setSendBtnStatus] = useState(true);
+
 
     useEffect(() => {
       setSelectedLink(link);
@@ -42,7 +45,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
         });
       }
 
-        // onchange event
+
     const handleFile=(e)=>{
         let fileTypes = ['application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','text/csv'];
         let selectedFile = e.target.files[0];
@@ -79,9 +82,21 @@ const UploadMessage = ({ setSelectedLink, link }) => {
       
         return number_object
             });
-        const message_object = { phoneNumbers: numbers_excel, message: message }
+        const message_object = { phoneNumbers: numbers_excel, sid: senderId,  message: message, user: currentUser }
  
-        sendBulkSMSApi(message_object, dispatch);
+        const messages_count = numbers_excel.length;
+        const messages_cost = 25 * messages_count;
+        const balanceInt = parseInt(balance.balance);
+
+        if(  balanceInt > messages_cost ) { 
+          sendBulkSMSApi(message_object, dispatch);
+        } else if (messages_cost > balanceInt) {
+          updateAlertFunction(dispatch, 'error' , UPDATE_ALERT , 'You do not have enough balance to send Airtime');  
+ 
+        } else {
+          updateAlertFunction(dispatch, 'error', UPDATE_ALERT, 'Wrong amount input, please correct the amount')
+        }
+        
                
         setSendBtnStatus(true);
         setExcelDisplay([]);
@@ -170,6 +185,8 @@ const UploadMessage = ({ setSelectedLink, link }) => {
         display: 'flex',
         flexDirection: 'row',
         ml: 0, mt: 5, 
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
       noValidate
       autoComplete="off"
@@ -186,7 +203,10 @@ const UploadMessage = ({ setSelectedLink, link }) => {
           rows={4}
           style={{ width: 400}}
         />
-        <Typography style={{ alignSelf: 'center' }}> Characters are : { inputs.message.length } </Typography>
+        <Typography style={{ alignSelf: 'center' }}
+                    sx={{ mr: 5 }}> Character count : { inputs.message.length } </Typography>
+
+        <SenderIdMenu />
     </Box> 
 </div>
         <div className='uploadExcel'>

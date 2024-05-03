@@ -9,7 +9,7 @@ import Loading from '../../../components/Loading';
 const SendOneAirtime = ({ setSelectedLink, link }) =>  {
 
     const [inputs, setInput] = useState({ phonenumber : '',  amount : '' });
-    const { state: { open, balance }, dispatch } = useValue();
+    const { state: { currentUser, open, balance }, dispatch } = useValue();
   
     useEffect(() => {
         setSelectedLink(link);
@@ -35,9 +35,11 @@ const SendOneAirtime = ({ setSelectedLink, link }) =>  {
           phoneNumber:  '+' + phonenumber, 
           currencyCode:  'TZS', 
           amount: amount}];
+
+        const data_api = { data: data, user: currentUser }
     
           if(  balanceInt > airtimeAmount ) {
-            sendSingleAirtimeApi(data, dispatch);
+            sendSingleAirtimeApi( data_api, dispatch );
           }  else {
             updateAlertFunction(dispatch, 'error' , UPDATE_ALERT, 'You do not have enough balance to send Airtime');  
           }

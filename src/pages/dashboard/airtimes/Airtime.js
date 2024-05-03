@@ -9,11 +9,12 @@ import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/common
 
 const Airtime = ({ setSelectedLink, link }) => {
 
-  const { state: {airtimes, airtimes_received, activateBox }, dispatch } = useValue();
+  const { state: { currentUser,  airtimes, airtimes_received, activateBox }, dispatch } = useValue();
   
+  const user = { user: currentUser };
   useEffect(() => {
     setSelectedLink(link);
-    getMainAirtime(dispatch);  
+    getMainAirtime( user, dispatch);  
   });
 
   const columns = [

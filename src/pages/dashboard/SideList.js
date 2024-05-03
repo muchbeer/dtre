@@ -14,10 +14,9 @@ import { useState } from 'react';
 import { useValue } from '../../context/ContextProvider';
 import { styled, useTheme } from '@mui/material/styles';
 import photoUrl from '../../user.jpg'
-import { Dashboard, DriveFolderUpload, DvrOutlined, Logout, PeopleAlt, SendTimeExtension, MessageOutlined
+import { Dashboard, DriveFolderUpload, DvrOutlined, Logout, SendTimeExtension, MessageOutlined
         , AttachEmailOutlined } from '@mui/icons-material';
 import Main from './main/Main';
-import Users from './users/Users';
 import Airtime from './airtimes/Airtime';
 import Upload from './upload/Upload';
 import SendOneAirtime from './airtimes/SendOneAirtime';
@@ -88,13 +87,13 @@ const SideList = ({ open, setOpen }) => {
         link: '',
         component: <Main {...{ setSelectedLink, link: '' }} />,
 
-      },
+      }, /*
       {
         title: 'Users',
         icon: < PeopleAlt />,
         link: 'users',
         component: <Users {...{ setSelectedLink, link: 'users' }} />,
-      },
+      }, */
       {
         title: 'Airtime',
         icon: <DvrOutlined />,

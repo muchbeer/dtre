@@ -10,12 +10,12 @@ import { DataGrid } from '@mui/x-data-grid';
 
   const Messages = ({ setSelectedLink, link }) => {
 
-  const { state: { messages, messages_received, activateMessageBox }, dispatch } = useValue();
-
+  const { state: { currentUser,  messages, messages_received, activateMessageBox }, dispatch } = useValue();
+  const data_api = { user: currentUser };
 
   useEffect(() => {
     setSelectedLink(link);
-    getMainMessages(dispatch);
+    getMainMessages( data_api, dispatch );
   });
 
   const columns = [

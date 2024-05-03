@@ -8,16 +8,23 @@ import * as Excel from 'xlsx';
 import  Notification  from '../../../components/Notification';
 import  Loading  from '../../../components/Loading'
 import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
+import { getBalance } from '../../../actions/balance';
 
 const Upload = ({ setSelectedLink, link }) => {
 
   const [excelFile, setExcelFile] = useState(null);
   const [typeError, setTypeError] = useState(null);
   const [fileName, setFileName] =useState(null);
-  const { state: { balance }, dispatch } = useValue();
+  const { state: { currentUser, balance }, dispatch } = useValue();
   const [excelDisplay, setExcelDisplay] = useState([]);
   const [sendBtnStatus, setSendBtnStatus] = useState(true);
   const totalAmount = [];
+
+  const user = { user: currentUser };
+
+  useEffect(() => {
+    getBalance(user, dispatch);
+  });
 
   const columns = [
     { field: "id", headerName: "ID", width: 20, flex: 1 },
@@ -71,8 +78,9 @@ const Upload = ({ setSelectedLink, link }) => {
       
       const totalAirtime = totalAmount.reduce( (x,y) => x+y, 0);
       const balanceInt = parseInt(balance.balance);
+      const api_body = { airtime: airtime_excel, user: currentUser }
       if(  balanceInt > totalAirtime ) {
-        sendAirtimeApi(airtime_excel, dispatch);
+        sendAirtimeApi(api_body, dispatch);
       }  else if( totalAirtime > balanceInt ){
         updateAlertFunction(dispatch, 'error' , UPDATE_ALERT, 'You do not have enough balance to send Airtime');  
       } else {
