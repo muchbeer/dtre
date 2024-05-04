@@ -87,14 +87,14 @@ import { DataGrid } from '@mui/x-data-grid';
       (   <Box  
         sx={{
         height: 400,
-        width: '100%',
+        width: '90%',
           }}> 
       <Typography
         variant="h5"
         component="h5"
         sx={{ textAlign: 'center', mt: 3, mb: 3 }}
         >
-          All Airtime Status
+          All Messages Status
       </Typography>
       
       <DataGrid
@@ -119,7 +119,7 @@ import { DataGrid } from '@mui/x-data-grid';
       ( 
                <Box 
         sx={{
-        height: 800,
+        height: 700,
         width: '90%',
         position: 'relative',
         

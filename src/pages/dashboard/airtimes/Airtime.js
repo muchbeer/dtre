@@ -84,7 +84,7 @@ const Airtime = ({ setSelectedLink, link }) => {
       (   <Box  
         sx={{
         height: 400,
-        width: '100%',
+        width: '90%',
           }}> 
       <Typography
         variant="h5"
