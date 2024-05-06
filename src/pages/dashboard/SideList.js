@@ -8,20 +8,25 @@ import ListItemText from '@mui/material/ListItemText';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import {Typography, Box,IconButton, Tooltip, Avatar } from '@mui/material';
+import {Typography, Box,IconButton, Tooltip, Avatar, Collapse } from '@mui/material';
 import {  Route, Routes, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useValue } from '../../context/ContextProvider';
 import { styled, useTheme } from '@mui/material/styles';
 import photoUrl from '../../user.jpg'
 import { Dashboard, DriveFolderUpload, DvrOutlined, Logout, SendTimeExtension, MessageOutlined
-        , AttachEmailOutlined } from '@mui/icons-material';
+        , AttachEmailOutlined, 
+        InboxOutlined,
+        ExpandMore,
+        ExpandLess,
+        PeopleAlt} from '@mui/icons-material';
 import Main from './main/Main';
 import Airtime from './airtimes/Airtime';
 import Upload from './upload/Upload';
 import SendOneAirtime from './airtimes/SendOneAirtime';
 import UploadMessage from './messages/UploadMessage';
 import Messages from './messages/Messages';
+import Users from './users/Users'
 
 const drawerWidth = 240;
 
@@ -78,6 +83,7 @@ const SideList = ({ open, setOpen }) => {
   const theme = useTheme();
   const [selectedLink, setSelectedLink] = useState('');
   const { state: { currentUser }, dispatch, } = useValue();
+  const [isOpen, setIsOpen] = useState(false);
 
   const list = useMemo(
     () => [
@@ -86,7 +92,8 @@ const SideList = ({ open, setOpen }) => {
         icon: <Dashboard />,
         link: '',
         component: <Main {...{ setSelectedLink, link: '' }} />,
-
+        expand: false,
+        submenu: [],
       }, /*
       {
         title: 'Users',
@@ -99,34 +106,64 @@ const SideList = ({ open, setOpen }) => {
         icon: <DvrOutlined />,
         link: 'airtime',
         component: <Airtime {...{ setSelectedLink, link: 'airtime' }} />,
+        expand: false,
+        submenu: [],
       },
       {
         title: 'Upload Airtime',
         icon: <DriveFolderUpload />,
         link: 'upload',
         component: <Upload {...{ setSelectedLink, link: 'upload' }} />,
+        expand: false,
+        submenu: [],
       },
       {
         title: 'Singe Airtime',
         icon: <SendTimeExtension />,
         link: 'sendairtime',
         component: <SendOneAirtime {...{ setSelectedLink, link: 'sendairtime' }} />,
+        expand: false,
+        submenu: [],
       }, 
       {
         title: 'Upload Message',
         icon: <AttachEmailOutlined />,
         link: 'uploadmessage',
         component: <UploadMessage {...{ setSelectedLink, link: 'uploadmessage' }} />,
+        expand: false,
+        submenu: [],
       }, 
       {
         title: 'Messages',
         icon: <MessageOutlined />,
         link: 'messages',
         component: <Messages {...{ setSelectedLink, link: 'messages' }} />,
+        expand: false,
+        submenu: [],
+      },{
+        title: 'Submenu',
+        icon: <InboxOutlined />,
+        submenu: [
+          {
+            title: 'Users',
+            icon: < PeopleAlt />,
+            link: 'users',
+            component: <Users {...{ setSelectedLink, link: 'users' }} />,
+          }
+        ],
+        expand: true,
+        
       }
     ],
     []
   );
+
+  const handleSubItemClick = (isExpand) => {
+    if (isExpand) {
+      setIsOpen(!isOpen);
+    }
+    
+  };
 
   const navigate = useNavigate();
 
@@ -163,7 +200,8 @@ const SideList = ({ open, setOpen }) => {
                 onClick={ () => {
                 dispatch({ type: 'DEACTIVATE_BOX' }); 
                 dispatch({ type: 'DEACTIVATE_MESSAGE_BOX' });
-                 navigate(item.link) 
+                 navigate(item.link);
+                 handleSubItemClick(item.expand);
                      }     
                  }
                 selected={selectedLink === item.link}
@@ -179,7 +217,38 @@ const SideList = ({ open, setOpen }) => {
                 </ListItemIcon>
 
                 <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
+
+                {  (item.expand && open) && ( isOpen ? <ExpandLess /> : <ExpandMore /> ) }
+              
               </ListItemButton>
+
+              <Collapse in={ (isOpen && open) } timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  { item.submenu.map((subitem) => (
+
+                    <ListItemButton sx={{ pl: 4 }} 
+                      onClick={ () => {
+                        dispatch({ type: 'DEACTIVATE_BOX' }); 
+                        dispatch({ type: 'DEACTIVATE_MESSAGE_BOX' });
+                        navigate(subitem.link);
+                       }}
+                      selected = { selectedLink === subitem.link }
+                    >
+                    <ListItemIcon 
+                    sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+                      { subitem.icon }
+                    </ListItemIcon>
+                    <ListItemText primary={ subitem.title} sx={{ opacity: open ? 1 : 0 }}  />
+                  </ListItemButton>
+
+                  )) }
+                  
+                </List>
+              </Collapse>
             </ListItem>
           ))}
         </List>
@@ -212,9 +281,16 @@ const SideList = ({ open, setOpen }) => {
         <DrawerHeader />
        
         <Routes>
-          {list.map((item) => (
-            <Route key={item.title} path={item.link} element={item.component} />
-          ))}
+          {list.map((item) => {
+
+            if(item.expand) {
+              return  item.submenu.map((submenu) => <Route key={submenu.title} path={submenu.link} element={submenu.component} /> )
+            } else {
+              return <Route key={item.title} path={item.link} element={item.component} />
+            }
+              
+          }
+          )}
         </Routes>
 
        

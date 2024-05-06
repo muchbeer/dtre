@@ -37,7 +37,7 @@ const Dashboard = () => {
 
 
   const [dark, setDark] = useState(true);
-  const [ open , setOpen] = useState(false);
+  const [ open , setOpen] = useState(true);
 
   const darkTheme = useMemo(
     () =>
