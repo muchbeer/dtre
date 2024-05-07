@@ -75,7 +75,7 @@ const Dashboard = () => {
           <Typography variant="h4"  noWrap
               component="div"
               sx={{ flexGrow: 1 }} >
-            Dtree Airtime Portal 
+            Mayaki Mobile Portal 
           </Typography>
           <IconButton onClick={() => setDark(!dark)}>
               {dark ? <Brightness7 /> : <Brightness4 />}

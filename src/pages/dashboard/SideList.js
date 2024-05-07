@@ -14,19 +14,17 @@ import { useState } from 'react';
 import { useValue } from '../../context/ContextProvider';
 import { styled, useTheme } from '@mui/material/styles';
 import photoUrl from '../../user.jpg'
-import { Dashboard, DriveFolderUpload, DvrOutlined, Logout, SendTimeExtension, MessageOutlined
-        , AttachEmailOutlined, 
-        InboxOutlined,
-        ExpandMore,
-        ExpandLess,
-        PeopleAlt} from '@mui/icons-material';
+import { Logout, MessageOutlined ,
+        ExpandMore,  ExpandLess, PostAddOutlined, DeckOutlined} from '@mui/icons-material';
 import Main from './main/Main';
 import Airtime from './airtimes/Airtime';
 import Upload from './upload/Upload';
 import SendOneAirtime from './airtimes/SendOneAirtime';
 import UploadMessage from './messages/UploadMessage';
 import Messages from './messages/Messages';
-import Users from './users/Users'
+import SingleMessage from './messages/SingleMessage';
+import { blue, grey } from '@mui/material/colors';
+// import Users from './users/Users'
 
 const drawerWidth = 240;
 
@@ -84,83 +82,75 @@ const SideList = ({ open, setOpen }) => {
   const [selectedLink, setSelectedLink] = useState('');
   const { state: { currentUser }, dispatch, } = useValue();
   const [isOpen, setIsOpen] = useState(false);
+  const highligheadcolor = blue[700];
+  const highlighmenucolor = blue[400];
+  const highlighgrey = grey[200];
+  const [mIndex, setIndex] = useState(null);
 
   const list = useMemo(
     () => [
       {
         title: 'Main',
-        icon: <Dashboard />,
+        icon: <DeckOutlined />,
         link: '',
         component: <Main {...{ setSelectedLink, link: '' }} />,
         expand: false,
         submenu: [],
-      }, /*
-      {
-        title: 'Users',
-        icon: < PeopleAlt />,
-        link: 'users',
-        component: <Users {...{ setSelectedLink, link: 'users' }} />,
-      }, */
+      },
       {
         title: 'Airtime',
-        icon: <DvrOutlined />,
-        link: 'airtime',
-        component: <Airtime {...{ setSelectedLink, link: 'airtime' }} />,
-        expand: false,
-        submenu: [],
+        icon: <PostAddOutlined />,
+        submenu: [
+          {
+            title: 'Singe Airtime',
+            link: 'sendairtime',
+            component: <SendOneAirtime {...{ setSelectedLink, link: 'sendairtime' }} />,
+          }, 
+         {
+            title: 'Upload Airtime',
+            link: 'upload',
+            component: <Upload {...{ setSelectedLink, link: 'upload' }} />,
+          },
+          {
+            title: 'View Airtime',
+            link: 'airtime',
+            component: <Airtime {...{ setSelectedLink, link: 'airtime' }} />,
+          },
+      ],
+        expand: true, 
       },
-      {
-        title: 'Upload Airtime',
-        icon: <DriveFolderUpload />,
-        link: 'upload',
-        component: <Upload {...{ setSelectedLink, link: 'upload' }} />,
-        expand: false,
-        submenu: [],
-      },
-      {
-        title: 'Singe Airtime',
-        icon: <SendTimeExtension />,
-        link: 'sendairtime',
-        component: <SendOneAirtime {...{ setSelectedLink, link: 'sendairtime' }} />,
-        expand: false,
-        submenu: [],
-      }, 
-      {
-        title: 'Upload Message',
-        icon: <AttachEmailOutlined />,
-        link: 'uploadmessage',
-        component: <UploadMessage {...{ setSelectedLink, link: 'uploadmessage' }} />,
-        expand: false,
-        submenu: [],
-      }, 
       {
         title: 'Messages',
         icon: <MessageOutlined />,
-        link: 'messages',
-        component: <Messages {...{ setSelectedLink, link: 'messages' }} />,
-        expand: false,
-        submenu: [],
-      },{
-        title: 'Submenu',
-        icon: <InboxOutlined />,
         submenu: [
           {
-            title: 'Users',
-            icon: < PeopleAlt />,
-            link: 'users',
-            component: <Users {...{ setSelectedLink, link: 'users' }} />,
-          }
+            title: 'Upload Message',
+            link: 'uploadmessage',
+            component: <UploadMessage {...{ setSelectedLink, link: 'uploadmessage' }} />,
+          }, 
+          {
+            title: 'Send Message',
+            link: 'onemessage', 
+            component: <SingleMessage {...{ setSelectedLink, link: 'onemessage'}} />,
+          },
+          {
+            title: 'View Messages',
+            link: 'messages',
+            component: <Messages {...{ setSelectedLink, link: 'messages' }} />,
+          },
+      
         ],
         expand: true,
         
-      }
+      },
     ],
     []
   );
 
-  const handleSubItemClick = (isExpand) => {
+  const handleSubItemClick = (isExpand, index) => {
     if (isExpand) {
       setIsOpen(!isOpen);
+      setIndex(index);
     }
     
   };
@@ -186,8 +176,16 @@ const SideList = ({ open, setOpen }) => {
         <Divider />
 
       
-        <List>
-          {list.map((item) => (
+        <List sx={{ 
+           // selected and (selected + hover) states
+          '&& .Mui-selected, && .Mui-selected:hover': {
+          bgcolor: highligheadcolor,
+          '&, & .MuiListItemIcon-root': {
+          color: 'white',
+      },
+    },
+         }} >
+          {list.map((item, index) => (
             <ListItem key={ item.title } disablePadding sx={{ display: 'block' }} 
         
              >
@@ -201,10 +199,11 @@ const SideList = ({ open, setOpen }) => {
                 dispatch({ type: 'DEACTIVATE_BOX' }); 
                 dispatch({ type: 'DEACTIVATE_MESSAGE_BOX' });
                  navigate(item.link);
-                 handleSubItemClick(item.expand);
+                 handleSubItemClick(item.expand, index);
                      }     
                  }
                 selected={selectedLink === item.link}
+ 
               >
                 <ListItemIcon
                   sx={{
@@ -222,11 +221,13 @@ const SideList = ({ open, setOpen }) => {
               
               </ListItemButton>
 
-              <Collapse in={ (isOpen && open) } timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
+              <Collapse in={ (isOpen && open && mIndex === index) } timeout="auto" unmountOnExit>
+                <List component="div" disablePadding >
                   { item.submenu.map((subitem) => (
-
-                    <ListItemButton sx={{ pl: 4 }} 
+                    <ListItem key={ subitem.title } disablePadding sx={{ display: 'block' }} 
+                     >
+                    <ListItemButton sx={{ pl: 4,  backgroundColor : mIndex === index ? highlighmenucolor : highlighgrey }} 
+                
                       onClick={ () => {
                         dispatch({ type: 'DEACTIVATE_BOX' }); 
                         dispatch({ type: 'DEACTIVATE_MESSAGE_BOX' });
@@ -234,17 +235,9 @@ const SideList = ({ open, setOpen }) => {
                        }}
                       selected = { selectedLink === subitem.link }
                     >
-                    <ListItemIcon 
-                    sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}>
-                      { subitem.icon }
-                    </ListItemIcon>
                     <ListItemText primary={ subitem.title} sx={{ opacity: open ? 1 : 0 }}  />
                   </ListItemButton>
-
+                  </ListItem>
                   )) }
                   
                 </List>

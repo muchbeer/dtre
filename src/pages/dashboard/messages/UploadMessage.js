@@ -75,7 +75,6 @@ const UploadMessage = ({ setSelectedLink, link }) => {
         e.preventDefault();
                 
         const { message } = inputs;
-        console.log('the message output is now : ' + message );
         const numbers_excel =  excelDisplay.map((value) =>  {
         const phoneNum = value.number
         const number_object =  phoneNum.toString();

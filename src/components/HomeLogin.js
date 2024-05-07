@@ -17,7 +17,7 @@ const HomeLogin = () => {
         <Typography variant="h5"
                     component="h5"
                     sx={{ textAlign: 'center', mt: 5, mb: 5 }} >
-            Dtree Access Portal
+            Mayaki Portal
         </Typography>
 
         { currentUser && navigate('/dashboard')  }
