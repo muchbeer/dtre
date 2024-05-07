@@ -1,4 +1,4 @@
-import React, {  useMemo } from 'react'
+import React, {  useEffect, useMemo } from 'react'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
@@ -24,6 +24,7 @@ import UploadMessage from './messages/UploadMessage';
 import Messages from './messages/Messages';
 import SingleMessage from './messages/SingleMessage';
 import { blue, grey } from '@mui/material/colors';
+import { getUserSIDs } from '../../actions/messages';
 // import Users from './users/Users'
 
 const drawerWidth = 240;
@@ -86,6 +87,11 @@ const SideList = ({ open, setOpen }) => {
   const highlighmenucolor = blue[400];
   const highlighgrey = grey[200];
   const [mIndex, setIndex] = useState(null);
+
+  
+  useEffect(() => {
+    getUserSIDs(currentUser.email, dispatch);
+  });
 
   const list = useMemo(
     () => [

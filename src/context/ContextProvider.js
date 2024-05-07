@@ -9,7 +9,8 @@ const initialState = {
     registered: false,
     activateBox: false,
     activateMessageBox: false,
-    senderId: null,
+    senderId: JSON.parse(localStorage.getItem('sid')) || ['SENDER ID', 'INFORM'], 
+    senderName: null,
     alert: { open: false, severity: 'info', message: 'Test the alert if it worked' },
     balance: null, 
     users :  [],
@@ -30,13 +31,14 @@ const ContextProvider = ({ children }) => {
 
     useEffect(()=>{
       localStorage.setItem('balance', JSON.stringify(state.balance));
+      localStorage.setItem('sid', JSON.stringify(state.senderId));
 
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       if (currentUser) {
       dispatch({ type: 'UPDATE_USER', payload: currentUser });
         }
     }, 
-    [ state.balance]); 
+    [ state.balance, state.senderId]); 
 
     return (
       <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>

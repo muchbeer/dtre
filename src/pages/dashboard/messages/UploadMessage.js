@@ -15,13 +15,14 @@ const UploadMessage = ({ setSelectedLink, link }) => {
     const [excelFile, setExcelFile] = useState(null);
     const [typeError, setTypeError] = useState(null);
     const [fileName, setFileName] =useState(null);
-    const { state: { currentUser, senderId, balance },  dispatch } = useValue();
+    const { state: { currentUser, senderName, balance },  dispatch } = useValue();
     const [excelDisplay, setExcelDisplay] = useState([]);
     const [sendBtnStatus, setSendBtnStatus] = useState(true);
 
 
     useEffect(() => {
       setSelectedLink(link);
+  
     });
 
     const [inputs, setInput] = useState({ message : '' });
@@ -75,26 +76,34 @@ const UploadMessage = ({ setSelectedLink, link }) => {
         e.preventDefault();
                 
         const { message } = inputs;
-        const numbers_excel =  excelDisplay.map((value) =>  {
-        const phoneNum = value.number
-        const number_object =  phoneNum.toString();
-      
-        return number_object
-            });
-        const message_object = { phoneNumbers: numbers_excel, sid: senderId,  message: message, user: currentUser }
- 
-        const messages_count = numbers_excel.length;
-        const messages_cost = 25 * messages_count;
-        const balanceInt = parseInt(balance.balance);
 
-        if(  balanceInt > messages_cost ) { 
-          sendBulkSMSApi(message_object, dispatch);
-        } else if (messages_cost > balanceInt) {
-          updateAlertFunction(dispatch, 'error' , UPDATE_ALERT , 'You do not have enough balance to send Airtime');  
- 
-        } else {
-          updateAlertFunction(dispatch, 'error', UPDATE_ALERT, 'Wrong amount input, please correct the amount')
-        }
+         try {
+            const numbers_excel =  excelDisplay.map((value) =>  {
+            const phoneNum = value.number
+            const number_object =  phoneNum.toString();
+          
+            return number_object
+                });
+            
+            
+            const message_object = { phoneNumbers: numbers_excel, sid: senderName,  message: message, user: currentUser }
+     
+            const messages_count = numbers_excel.length;
+            const messages_cost = 25 * messages_count;
+            const balanceInt = parseInt(balance.balance);
+    
+            if(  balanceInt > messages_cost ) { 
+              sendBulkSMSApi(message_object, dispatch);
+            } else if (messages_cost > balanceInt) {
+              updateAlertFunction(dispatch, 'error' , UPDATE_ALERT , 'You do not have enough balance to send Airtime');  
+     
+            } else {
+              updateAlertFunction(dispatch, 'error', UPDATE_ALERT, 'Wrong amount input, please correct the amount')
+            }
+         } catch (err) {
+            updateAlertFunction( dispatch, 'error' , UPDATE_ALERT, err.message);
+         }
+        
         
                
         setSendBtnStatus(true);
@@ -128,13 +137,13 @@ const UploadMessage = ({ setSelectedLink, link }) => {
 
   return (
     <div>
-    <Notification />
-    <Loading />  
-<div className='uploadAirtime'>
-  <div className="userTitleContainer">
-  <h2 className="userTitle">Upload Contacts and View Excel Sheets</h2>
+      <Notification />
+      <Loading />  
+    <div className='uploadAirtime'>
+      <div className="userTitleContainer">
+      <h2 className="userTitle">Upload Contacts and View Excel Sheets</h2>
   
-     <Button variant='outlined'
+        <Button variant='outlined'
           disabled = { sendBtnStatus }
           onClick={ sendBulkSMS }>Send Messages</Button>
   

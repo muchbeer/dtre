@@ -37,6 +37,9 @@ const reducer = (state, action) => {
       case 'UPDATE_SID':
         return { ...state, senderId: action.payload };
 
+      case 'UPDATE_SENDER_NAME':
+        return { ...state, senderName: action.payload };
+
       case 'UPDATE_USER':
         return { ...state, currentUser: action.payload };
 

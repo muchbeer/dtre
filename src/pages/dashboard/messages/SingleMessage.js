@@ -7,9 +7,10 @@ import SenderIdMenu from './SenderIdMenu';
 import { sendBulkSMSApi } from '../../../actions/messages';
 import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
 
+
 const SingleMessage = ({ setSelectedLink, link }) => {
 
-    const { state: { currentUser, open, senderId, balance },  dispatch } = useValue();
+    const { state: { currentUser, open, senderName, balance },  dispatch } = useValue();
     const [inputs, setInput] = useState({ phonenumber : '',  message : '' });
 
     useEffect(() => {
@@ -28,9 +29,10 @@ const SingleMessage = ({ setSelectedLink, link }) => {
         e.preventDefault();
 
         const { phonenumber, message } = inputs;
-        const balanceInt = parseInt(balance.balance);
+        try {
+          const balanceInt = parseInt(balance.balance);
 
-        const message_object = { phoneNumbers: [phonenumber], sid: senderId,  message: message, user: currentUser }
+        const message_object = { phoneNumbers: [phonenumber], sid: senderName,  message: message, user: currentUser }
  
         if(  balanceInt > 25 ) { 
             sendBulkSMSApi( message_object, dispatch );
@@ -39,7 +41,11 @@ const SingleMessage = ({ setSelectedLink, link }) => {
    
           } else {
             updateAlertFunction(dispatch, 'error', UPDATE_ALERT, 'Wrong input, please correct the amount')
-          }
+          } 
+        } catch (err) {
+           updateAlertFunction( dispatch, 'error' , UPDATE_ALERT, err.message);
+        }
+        
 
           setInput({ phonenumber : '',  message : '' } );
     }

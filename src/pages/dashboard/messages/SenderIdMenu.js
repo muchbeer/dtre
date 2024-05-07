@@ -2,26 +2,21 @@ import { List, ListItemButton, ListItemText, Menu, MenuItem } from '@mui/materia
 import React, { useEffect, useState } from 'react'
 import { useValue } from '../../../context/ContextProvider';
 
-const senderIds = [
-    'Sender Name',
-    'IVP Malawi',
-    'FARAS',
-    'HARUSI',
-    'INFORM',
-    '	KKKT-KIBADA'
-  ];
 
 const SenderIdMenu = () => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(1);
     const open = Boolean(anchorEl);
+  
 
-    const { dispatch } = useValue();
-    useEffect( () => {
-      dispatch( { type: 'UPDATE_SID', payload: senderIds[selectedIndex] } );
-    }, [dispatch, selectedIndex])
+    const { state: { senderId },  dispatch } = useValue();
     
+    useEffect( () => {
+      dispatch( { type: 'UPDATE_SENDER_NAME', payload: senderId[selectedIndex] } );
+    }, [dispatch, selectedIndex, senderId])
+
+
     const handleClickListItem = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -52,7 +47,7 @@ const SenderIdMenu = () => {
       >
         <ListItemText
           primary="Select Sender ID Name"
-          secondary={ senderIds[selectedIndex]}
+          secondary={ senderId[selectedIndex]}
         />
       </ListItemButton>
     </List>
@@ -66,7 +61,7 @@ const SenderIdMenu = () => {
         role: 'listbox',
       }}
     >
-      { senderIds.map((option, index) => (
+      { senderId.map((option, index) => (
         <MenuItem
           key={option}
           disabled={index === 0}

@@ -23,6 +23,15 @@ export const getMainMessages = async ( data, dispatch ) => {
     }
   };
 
+  export const getUserSIDs = async (email, dispatch) => {
+
+    const data = { user: email }
+    const received_sid = await fetchData({ url: url + '/viewsid', body: data }, dispatch);
+    if( received_sid ) {
+      dispatch({ type: 'UPDATE_SID', payload: received_sid });
+    }
+  };
+
   export const sendBulkSMSApi = async (excel_data, dispatch) => {
       
     dispatch({ type: START_LOADING });
