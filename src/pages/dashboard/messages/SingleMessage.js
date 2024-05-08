@@ -46,8 +46,6 @@ const SingleMessage = ({ setSelectedLink, link }) => {
            updateAlertFunction( dispatch, 'error' , UPDATE_ALERT, err.message);
         }
         
-
-          setInput({ phonenumber : '',  message : '' } );
     }
 
 

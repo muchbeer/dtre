@@ -17,7 +17,7 @@ import { UPDATE_ALERT, updateAlertFunction } from '../../actions/utils/commonCon
 
 const Login = () => {
 
-    const { dispatch,  } = useValue();
+    const { state: { registered }, dispatch,  } = useValue();
     const [title, setTitle] = useState('Login');
     const [isRegister, setIsRegister] = useState(false);
     const nameRef = useRef();
@@ -44,8 +44,12 @@ const Login = () => {
     const name = nameRef.current.value;
     const secondName = secondRef.current.value;
     register({ name: name, lastname: secondName, email: email, password: password }, dispatch);
-    setIsRegister(!isRegister)
- 
+    
+    if(registered) {
+        setIsRegister(!isRegister);
+        dispatch({ type: 'CLOSE_REGISTER'  });
+        };
+
     }
 
     useEffect(() => {
