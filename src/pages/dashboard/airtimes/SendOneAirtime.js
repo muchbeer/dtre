@@ -27,22 +27,27 @@ const SendOneAirtime = ({ setSelectedLink, link }) =>  {
       const handleSendAirtime = async (event) => {
         event.preventDefault();
         
-        const { phonenumber, amount} = inputs;
-        const balanceInt = parseInt(balance.balance);
-        const airtimeAmount = parseInt(amount);
-        
-        const data = [{ 
-          phoneNumber:  '+' + phonenumber, 
-          currencyCode:  'TZS', 
-          amount: amount}];
+        try {
+          const { phonenumber, amount} = inputs;
+          const balanceInt = parseInt(balance.balance);
+          const airtimeAmount = parseInt(amount);
+          
+          const data = [{ 
+            phoneNumber:  '+' + phonenumber, 
+            currencyCode:  'TZS', 
+            amount: amount}];
+  
+          const data_api = { data: data, user: currentUser }
+      
+            if(  balanceInt > airtimeAmount ) {
+              sendSingleAirtimeApi( data_api, dispatch );
+            }  else {
+              updateAlertFunction(dispatch, 'error' , UPDATE_ALERT, 'You do not have enough balance to send Airtime');  
+            }
+        } catch (err) {
+            updateAlertFunction(dispatch, 'error', UPDATE_ALERT, err.message);
+        }
 
-        const data_api = { data: data, user: currentUser }
-    
-          if(  balanceInt > airtimeAmount ) {
-            sendSingleAirtimeApi( data_api, dispatch );
-          }  else {
-            updateAlertFunction(dispatch, 'error' , UPDATE_ALERT, 'You do not have enough balance to send Airtime');  
-          }
         
         setInput({ phonenumber : '',  amount : '' } );
     

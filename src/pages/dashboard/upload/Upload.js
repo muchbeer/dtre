@@ -66,26 +66,32 @@ const Upload = ({ setSelectedLink, link }) => {
          //call the api now 
     const sendAirtime = async (e) => {
       e.preventDefault();
-          
-      const airtime_excel =  excelDisplay.map((value) =>  {
-      const phoneNum = value.number
-      const amount = 'TZS ' + value.amount.toString();
-      const airtime_object = {phoneNumber: phoneNum.toString(), amount: amount}
 
-      totalAmount.push( parseInt(value.amount) )
-        return airtime_object
-         })
-      
-      const totalAirtime = totalAmount.reduce( (x,y) => x+y, 0);
-      const balanceInt = parseInt(balance.balance);
-      const api_body = { airtime: airtime_excel, user: currentUser }
-      if(  balanceInt > totalAirtime ) {
-        sendAirtimeApi(api_body, dispatch);
-      }  else if( totalAirtime > balanceInt ){
-        updateAlertFunction(dispatch, 'error' , UPDATE_ALERT, 'You do not have enough balance to send Airtime');  
-      } else {
-        updateAlertFunction(dispatch, 'error', UPDATE_ALERT, 'Wrong amount input, please correct the amount')
+      try {
+          const airtime_excel =  excelDisplay.map((value) =>  {
+          const phoneNum = value.number
+          const amount = 'TZS ' + value.amount.toString();
+          const airtime_object = {phoneNumber: phoneNum.toString(), amount: amount}
+    
+          totalAmount.push( parseInt(value.amount) )
+            return airtime_object
+             })
+          
+          const totalAirtime = totalAmount.reduce( (x,y) => x+y, 0);
+          const balanceInt = parseInt(balance.balance);
+          const api_body = { airtime: airtime_excel, user: currentUser }
+          if(  balanceInt > totalAirtime ) {
+            sendAirtimeApi(api_body, dispatch);
+          }  else if( totalAirtime > balanceInt ){
+            updateAlertFunction(dispatch, 'error' , UPDATE_ALERT, 'You do not have enough balance to send Airtime');  
+          } else {
+            updateAlertFunction(dispatch, 'error', UPDATE_ALERT, 'Wrong amount input, please correct the amount')
+          }
+      } catch (err) {
+        updateAlertFunction(dispatch, 'error', UPDATE_ALERT, err.message);
       }
+          
+
          
       setSendBtnStatus(true);
       setExcelDisplay([]);

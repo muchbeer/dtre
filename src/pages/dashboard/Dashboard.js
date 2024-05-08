@@ -36,7 +36,7 @@ const AppBar = styled(MuiAppBar, {
 const Dashboard = () => {
 
 
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   const [ open , setOpen] = useState(true);
 
   const darkTheme = useMemo(
