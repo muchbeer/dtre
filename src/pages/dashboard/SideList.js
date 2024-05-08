@@ -194,7 +194,7 @@ const SideList = ({ open, setOpen }) => {
           '& .MuiListItemButton-root:hover': {
           bgcolor: highligheadcolor,
           '&, & .MuiListItemIcon-root': {
-          color: 'green',
+          color: 'white',
       },
     },
          }} >
