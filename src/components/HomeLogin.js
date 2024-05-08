@@ -27,4 +27,4 @@ const HomeLogin = () => {
   )
 }
 
-export default HomeLogin
+export default HomeLogin;

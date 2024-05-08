@@ -12,11 +12,12 @@ import {
 
 } from '@mui/material';
 import { register, loginUser } from '../../actions/users';
+import { UPDATE_ALERT, updateAlertFunction } from '../../actions/utils/commonConstant';
 
 
 const Login = () => {
 
-    const { state : { registered } , dispatch,  } = useValue();
+    const { dispatch,  } = useValue();
     const [title, setTitle] = useState('Login');
     const [isRegister, setIsRegister] = useState(false);
     const nameRef = useRef();
@@ -36,23 +37,15 @@ const Login = () => {
         
         const confirmPassword = confirmPasswordRef.current.value;
         
-      if (password !== confirmPassword) {
-        dispatch({
-          type: 'UPDATE_ALERT',
-          payload: {
-          open: true,
-          severity: 'error',
-          message: 'Passwords do not match',
-        },
-      });
+            if (password !== confirmPassword) {
+        updateAlertFunction(dispatch, 'error', UPDATE_ALERT, 'Passwords do not match');
+        return
     }
     const name = nameRef.current.value;
     const secondName = secondRef.current.value;
     register({ name: name, lastname: secondName, email: email, password: password }, dispatch);
-
-    if (registered)  { 
-      console.log('The value of registered is : ' + registered)
-      setIsRegister(!isRegister) } 
+    setIsRegister(!isRegister)
+ 
     }
 
     useEffect(() => {
