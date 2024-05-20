@@ -52,6 +52,18 @@ const reducer = (state, action) => {
       case 'UPDATE_AIRTIME': 
         return { ...state, airtimes : action.payload };
 
+      case 'UPDATE_CONTACT':
+        return { ...state, contacts : action.payload };
+
+      case 'UPDATE_TAGS':
+        return { ...state, tags: action.payload };
+
+      case 'UPDATE_GROUPS':
+        return {  ...state, groups: action.payload };
+
+      case 'UPDATE_NAMES':
+        return {  ...state, names: action.payload  };
+
       case 'UPDATE_AIRTIME_RECEIVED': 
         return {  ...state, airtimes_received : action.payload };
 

@@ -18,7 +18,7 @@ export const register = async (user, dispatch) => {
 
       updateAlertFunction(dispatch, 'success', UPDATE_ALERT, 'Your account has been created successfully, Please login');
     } 
-  
+  //slsl
     dispatch({ type: END_LOADING });
   } catch (error) {
     dispatch({ type: END_LOADING});

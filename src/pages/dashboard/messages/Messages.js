@@ -56,15 +56,16 @@ import { DataGrid } from '@mui/x-data-grid';
   const handleDownload = (event) => {
       event.preventDefault();
   
-      const rows = messages_received.map( messages => ({
-        id: messages.id,
-        phone_number: messages.phone_number,
-        message_cost: messages.message_cost,
-        status: messages.status
-  
-      }));
-  
       try {
+        const rows = messages_received.map( messages => ({
+          id: messages.id,
+          phone_number: messages.phone_number,
+          message_cost: messages.message_cost,
+          status: messages.status
+  
+          }));
+  
+      
         const workbook = xls.utils.book_new();
         const worksheet = xls.utils.json_to_sheet(rows);
     
@@ -77,7 +78,6 @@ import { DataGrid } from '@mui/x-data-grid';
         xls.writeFile(workbook, dateFormating(), { compression: true });
       } catch (error) {
         updateAlertFunction(dispatch, 'error', UPDATE_ALERT, error.message)
-    
       }
   }
 

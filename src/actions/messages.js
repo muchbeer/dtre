@@ -1,12 +1,12 @@
 import { END_LOADING, START_LOADING, UPDATE_ALERT, updateAlertFunction } from './utils/commonConstant.js'
-import fetchData from "./utils/fetchData.js";
+import fetchData from './utils/fetchData.js';
 
 
 //const SERVER_URL = 'http://localhost:5001/'
 const SERVER_URL=process.env.REACT_APP_BASE_SERVER_URL;
 const url = SERVER_URL + 'api/message'
 
-export const getMainMessages = async ( data, dispatch ) => {
+  export const getMainMessages = async ( data, dispatch ) => {
 
     const messages = await fetchData({ url: url + '/', body: data }, dispatch);
     if (messages) {

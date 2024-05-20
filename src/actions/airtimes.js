@@ -11,7 +11,6 @@ const url = SERVER_URL + 'api/airtime'
     if (airtime) {
       dispatch({ type: 'UPDATE_AIRTIME', payload: airtime });
     }
-  
   };
 
   export const getAllAirtimes = async (id, dispatch) => {
@@ -60,7 +59,7 @@ const url = SERVER_URL + 'api/airtime'
     const formatDate = dating.getDate() + '_' + dating.getMonth() + 'T' + dating.getHours() 
                       + 'hh'+ dating.getMinutes() +'mm' + dating.getSeconds() +  'ss.xlsx';
 
-    const filename = 'Dtreefile' + formatDate;
+    const filename = 'Mayakifile' + formatDate;
     
     return filename;
   };

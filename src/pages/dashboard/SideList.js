@@ -15,7 +15,8 @@ import { useValue } from '../../context/ContextProvider';
 import { styled, useTheme } from '@mui/material/styles';
 import photoUrl from '../../user.jpg'
 import { Logout, MessageOutlined ,
-        ExpandMore,  ExpandLess, PostAddOutlined, DeckOutlined} from '@mui/icons-material';
+        ExpandMore,  ExpandLess, PostAddOutlined, DeckOutlined,
+        ContactPhone} from '@mui/icons-material';
 import Main from './main/Main';
 import Airtime from './airtimes/Airtime';
 import Upload from './upload/Upload';
@@ -23,9 +24,11 @@ import SendOneAirtime from './airtimes/SendOneAirtime';
 import UploadMessage from './messages/UploadMessage';
 import Messages from './messages/Messages';
 import SingleMessage from './messages/SingleMessage';
+import Contacts, { Root } from './contacts/Contacts';
+import ViewContact from './contacts/ViewContact';
 import { blue, grey } from '@mui/material/colors';
 import { getUserSIDs } from '../../actions/messages';
-// import Users from './users/Users'
+
 
 const drawerWidth = 240;
 
@@ -104,6 +107,24 @@ const SideList = ({ open, setOpen }) => {
         submenu: [],
       },
       {
+        title: 'Contact',
+        icon: <ContactPhone />,
+        
+        submenu: [
+          {
+            title: 'Save Contact',
+            link: 'contact',
+            component: <Contacts {...{ setSelectedLink, link: 'contact' }} />,
+          }, 
+          {
+            title: 'View Contact',
+            link: 'viewcontact',
+            component: <ViewContact { ... { setSelectedLink, link: 'viewcontact' }} />
+          }
+        ],
+        expand: true,
+      },
+      {
         title: 'Airtime',
         icon: <PostAddOutlined />,
         submenu: [
@@ -173,7 +194,7 @@ const SideList = ({ open, setOpen }) => {
 
   return (
     <>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={ open }>
         <DrawerHeader>
           <IconButton onClick={ () => { setOpen(false) }}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -198,7 +219,7 @@ const SideList = ({ open, setOpen }) => {
       },
     },
          }} >
-          {list.map((item, index) => (
+          {list.map(( item, index ) => (
             <ListItem key={ item.title } disablePadding sx={{ display: 'block' }} 
         
              >
@@ -215,7 +236,7 @@ const SideList = ({ open, setOpen }) => {
                  handleSubItemClick(item.expand, index);
                      }     
                  }
-                selected={selectedLink === item.link}
+                selected={ selectedLink === item.link }
  
               >
                 <ListItemIcon
@@ -225,10 +246,10 @@ const SideList = ({ open, setOpen }) => {
                     justifyContent: 'center',
                   }}
                 >
-                  {item.icon}
+                  { item.icon }
                 </ListItemIcon>
 
-                <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={ item.title } sx={{ opacity: open ? 1 : 0 }} />
 
                 {  (item.expand && open) && ( isOpen ? <ExpandLess /> : <ExpandMore /> ) }
               
@@ -261,38 +282,41 @@ const SideList = ({ open, setOpen }) => {
         <Divider />
         
         <Box sx={{ mx: 'auto', mt: 3, mb: 1 }}>
-          <Tooltip title={currentUser?.name || ''}>
+          <Tooltip title={ currentUser?.name || '' }>
             <Avatar
               src={ photoUrl }
               {...(open && { sx: { width: 70, height: 70 } })}
             />
           </Tooltip>
         </Box>
-
+        <Root>
         <Box sx={{ textAlign: 'center' }}>
-          {open && <Typography>{currentUser?.first_name}</Typography>}
-          <Typography variant="body2">{currentUser?.role || 'role'}</Typography>
-          {open && (
-            <Typography variant="body2">{currentUser?.email}</Typography>
+          {open && <Typography>{ currentUser?.first_name }</Typography>}
+          <Typography variant="body2">{ currentUser?.role || 'role'}</Typography>
+          { open && (
+            <Typography variant="body2">{ currentUser?.email }</Typography>
           )}
-          <Tooltip title="Logout" sx={{ mt: 1 }}>
+
+          <Divider textAlign='center' sx={{ marginTop: 4 }}> Logout </Divider>
+
+            <Tooltip title="Logout" sx={{ mt: 1 }}>
             <IconButton onClick={ handleLogout }>
               <Logout />
             </IconButton>
           </Tooltip>
         </Box>
-
+        </Root>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
        
         <Routes>
-          {list.map((item) => {
+          {list.map(( item ) => {
 
             if(item.expand) {
-              return  item.submenu.map((submenu) => <Route key={submenu.title} path={submenu.link} element={submenu.component} /> )
+              return  item.submenu.map(( submenu ) => <Route key={ submenu.title } path={ submenu.link } element={ submenu.component } /> )
             } else {
-              return <Route key={item.title} path={item.link} element={item.component} />
+              return <Route key={ item.title } path={ item.link } element={ item.component } />
             }
               
           }
@@ -305,4 +329,4 @@ const SideList = ({ open, setOpen }) => {
   )
 }
 
-export default SideList
+export default SideList;

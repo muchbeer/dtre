@@ -60,7 +60,7 @@ const Users = ({ setSelectedLink, link }) => {
       </Typography>
             
       <DataGrid
-        columns={columns}
+        columns={ columns }
         rows={users}
         disableSelectionOnClick
         rowsPerPageOptions={[5, 10, 20]}

@@ -8,7 +8,7 @@ import * as xls from 'xlsx';
 import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
 
 const Airtime = ({ setSelectedLink, link }) => {
-
+//Get this one
   const { state: { currentUser,  airtimes, airtimes_received, activateBox }, dispatch } = useValue();
   
   const user = { user: currentUser };
@@ -54,15 +54,17 @@ const Airtime = ({ setSelectedLink, link }) => {
   const handleDownload = (event) => {
     event.preventDefault();
 
-    const rows = airtimes_received.map( airtimes => ({
+    try {
+
+        const rows = airtimes_received.map( airtimes => ({
       id: airtimes.id,
       phone_number: airtimes.phone_number,
       amount: airtimes.amount,
       status: airtimes.status
 
-    }));
+        }));
 
-    try {
+    
       const workbook = xls.utils.book_new();
       const worksheet = xls.utils.json_to_sheet(rows);
   

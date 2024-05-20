@@ -144,8 +144,8 @@ const UploadMessage = ({ setSelectedLink, link }) => {
       <h2 className="userTitle">Upload Contacts and View Excel Sheets</h2>
   
         <Button variant='outlined'
-          disabled = { sendBtnStatus }
-          onClick={ sendBulkSMS }>Send Messages</Button>
+          disabled = { sendBtnStatus } sx={{ marginBottom: 4 }}
+          onClick={ sendBulkSMS && senderName }  >Send Messages</Button>
   
 </div>
 

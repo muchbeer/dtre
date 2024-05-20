@@ -89,6 +89,7 @@ const SendOneAirtime = ({ setSelectedLink, link }) =>  {
                 required
                 helperText = {!inputs.phonenumber ? 'Phonenumber is required' : ''}
                 style={{ width: 230}}
+                inputProps={{ maxLength: 12 }}
                 />
       <TextField
         onChange={handleInputChange}
