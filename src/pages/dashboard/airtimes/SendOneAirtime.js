@@ -5,14 +5,17 @@ import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/common
 import { Box, Button, InputAdornment, TextField, Typography } from '@mui/material';
 import Notification from '../../../components/Notification';
 import Loading from '../../../components/Loading';
+import { getBalance } from '../../../actions/balance';
 
 const SendOneAirtime = ({ setSelectedLink, link }) =>  {
 
     const [inputs, setInput] = useState({ phonenumber : '',  amount : '' });
     const { state: { currentUser, open, balance }, dispatch } = useValue();
   
+    const user = { user: currentUser };
     useEffect(() => {
         setSelectedLink(link);
+        getBalance( user, dispatch)
       });
 
       const handleInputChange = (event) => {

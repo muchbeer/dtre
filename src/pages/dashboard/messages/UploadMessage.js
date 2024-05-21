@@ -9,6 +9,7 @@ import * as Excel from 'xlsx';
 import { sendBulkSMSApi } from '../../../actions/messages';
 import SenderIdMenu from './SenderIdMenu';
 import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
+import { getBalance } from '../../../actions/balance';
 
 const UploadMessage = ({ setSelectedLink, link }) => {
  
@@ -19,9 +20,11 @@ const UploadMessage = ({ setSelectedLink, link }) => {
     const [excelDisplay, setExcelDisplay] = useState([]);
     const [sendBtnStatus, setSendBtnStatus] = useState(true);
 
-
+    const user = { user: currentUser };
     useEffect(() => {
       setSelectedLink(link);
+  
+      getBalance( user, dispatch)
   
     });
 
@@ -144,7 +147,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
       <h2 className="userTitle">Upload Contacts and View Excel Sheets</h2>
   
         <Button variant='outlined'
-          disabled = { sendBtnStatus && senderName.length > 0 } sx={{ marginBottom: 4 }}
+          disabled = { sendBtnStatus && senderName } sx={{ marginBottom: 4 }}
           onClick={ sendBulkSMS }  >Send Messages</Button>
   
 </div>
