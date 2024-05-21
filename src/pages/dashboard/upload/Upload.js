@@ -71,11 +71,11 @@ const Upload = ({ setSelectedLink, link }) => {
           const airtime_excel =  excelDisplay.map((value) =>  {
           const phoneNum = value.number
           const amount = 'TZS ' + value.amount.toString();
-          const airtime_object = {phoneNumber: phoneNum.toString(), amount: amount}
+          const airtime_object = { phoneNumber: phoneNum.toString(), amount: amount }
     
           totalAmount.push( parseInt(value.amount) )
             return airtime_object
-             })
+             });
           
           const totalAirtime = totalAmount.reduce( (x,y) => x+y, 0);
           const balanceInt = parseInt(balance.balance);
@@ -152,7 +152,7 @@ const Upload = ({ setSelectedLink, link }) => {
                 type='file'
                 accept='.xlsx, .xls'
                 required 
-                onChange={handleFile}
+                onChange={ handleFile }
                 style={ { display : 'none' } }
                 id='excel-file-input'
               />
@@ -168,7 +168,7 @@ const Upload = ({ setSelectedLink, link }) => {
                 <Button 
                   variant='contained'
                   color='primary'
-                  onClick={handleFileSubmit}> Retrieve file</Button>
+                  onClick={ handleFileSubmit }> Retrieve file</Button>
               </div>  
               )}
 

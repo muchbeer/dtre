@@ -39,7 +39,7 @@ const url = SERVER_URL + 'api/contact'
     
       if( fetchNumbers ) {
       //dispatch({ type: 'UPDATE_NUMBERS', payload: fetchNumbers });
-      dispatch({ type: END_LOADING});
+      dispatch({ type: END_LOADING });
       return fetchNumbers;
     }
       dispatch({ type: END_LOADING });

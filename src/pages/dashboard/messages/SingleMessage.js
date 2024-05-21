@@ -85,6 +85,7 @@ const SingleMessage = ({ setSelectedLink, link }) => {
     const handleGroup = (event) => {
       setIsChecked(event.target.checked);
       }
+      
   return (
     <div>
     <div>
@@ -96,9 +97,9 @@ const SingleMessage = ({ setSelectedLink, link }) => {
     <Box
         display= 
             "flex" flexDirection={"column"} 
-            maxWidth={700} 
-            alignItems={"center"} 
-            justifyContent={'center'} 
+            maxWidth={ 850 } 
+            alignItems={"left"} 
+            justifyContent={'left'} 
             margin={"auto"}
             marginTop={5}
             padding={5}

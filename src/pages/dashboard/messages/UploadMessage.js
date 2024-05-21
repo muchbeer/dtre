@@ -38,7 +38,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
     const columns = [
         { field: "id", headerName: "ID", width: 20, flex: 1 },
         { field: "number", headerName: "PhoneNumber", width: 120, flex: 1 },
-      ]
+      ];
 
     const addExcelItems = (inputItem) => {
         setExcelDisplay(prevItems => {
@@ -144,8 +144,8 @@ const UploadMessage = ({ setSelectedLink, link }) => {
       <h2 className="userTitle">Upload Contacts and View Excel Sheets</h2>
   
         <Button variant='outlined'
-          disabled = { sendBtnStatus } sx={{ marginBottom: 4 }}
-          onClick={ sendBulkSMS && senderName }  >Send Messages</Button>
+          disabled = { sendBtnStatus && senderName.length > 0 } sx={{ marginBottom: 4 }}
+          onClick={ sendBulkSMS }  >Send Messages</Button>
   
 </div>
 

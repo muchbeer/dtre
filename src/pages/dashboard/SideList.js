@@ -28,6 +28,7 @@ import Contacts, { Root } from './contacts/Contacts';
 import ViewContact from './contacts/ViewContact';
 import { blue, grey } from '@mui/material/colors';
 import { getUserSIDs } from '../../actions/messages';
+import OneMessage from './messages/OneMessage';
 
 
 const drawerWidth = 240;
@@ -156,9 +157,14 @@ const SideList = ({ open, setOpen }) => {
             component: <UploadMessage {...{ setSelectedLink, link: 'uploadmessage' }} />,
           }, 
           {
-            title: 'Send Message',
+            title: 'Send From Contact',
             link: 'onemessage', 
             component: <SingleMessage {...{ setSelectedLink, link: 'onemessage'}} />,
+          },
+          {
+            title: 'Send Message',
+            link: 'singlemessage', 
+            component: <OneMessage {...{ setSelectedLink, link: 'singlemessage'}} />,
           },
           {
             title: 'View Messages',
