@@ -1,8 +1,8 @@
 
 import fetchData from "./utils/fetchData";
 
-//const SERVER_URL = 'http://localhost:5001/'
-const SERVER_URL=process.env.REACT_APP_BASE_SERVER_URL
+const SERVER_URL = 'http://localhost:5001/'
+//const SERVER_URL=process.env.REACT_APP_BASE_SERVER_URL
 const url = SERVER_URL + 'api/balance'
 
 

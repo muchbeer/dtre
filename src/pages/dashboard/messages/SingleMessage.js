@@ -41,14 +41,16 @@ const SingleMessage = ({ setSelectedLink, link }) => {
     const handleSendMessage = (e) => {
         e.preventDefault();
 
-        const { phonenumber, message } = inputs;
+        const {  message } = inputs;
         try {
           const balanceInt = parseInt(balance.balance);
           //const activeNumber = selectedNumber ? selectedNumber : phonenumber;
+          const checkSelectedNumber = checked ? selectedNumber : [selectedNumber] ;
 
-        const message_object = { phoneNumbers:  selectedNumber , sid: senderName,  message: message, user: currentUser }
+        const message_object = { phoneNumbers: checkSelectedNumber , 
+                                    sid: senderName,  message: message, user: currentUser }
  
-        if(  balanceInt > 25 ) { 
+        if(  balanceInt > checkSelectedNumber.length * 25 ) { 
             sendBulkSMSApi( message_object, dispatch );
           } else if ( 25 > balanceInt) {
             updateAlertFunction( dispatch, 'error' ,UPDATE_ALERT  , 'You do not have enough balance to send message');  
@@ -59,7 +61,7 @@ const SingleMessage = ({ setSelectedLink, link }) => {
         } catch (err) {
            updateAlertFunction( dispatch, 'error' , UPDATE_ALERT, err.message);
         }
-        setInput({ phonenumber : '',  message : '' } );
+        setInput({ phonenumber : '',  message : '' });
     }
 
     const contactLabel = names?.map(contact => {

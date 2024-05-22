@@ -128,9 +128,15 @@ const Contacts = ({ setSelectedLink, link }) => {
             const entryz = Object.entries(value)
             const id = keyin+1;
             // console.log('The number entries is now : ' + entryz[0][1]);
-                        
-            addExcelItems({  id: id, number: entryz[0][1], names: entryz[1][1]  })
-            
+           const checkNumber = entryz[0][1];
+           const checkNumberStr = checkNumber.toString();
+            if( checkNumberStr.length === 12  && checkNumberStr.startsWith('255')) {
+              addExcelItems({  id: id, number: entryz[0][1], names: entryz[1][1]  });
+            }   else {
+                updateAlertFunction( dispatch, 'error', UPDATE_ALERT, 'Please correct your numbers');
+                return
+            }        
+
                 });
             setIsAttach(true);
                 }
@@ -262,6 +268,8 @@ const Contacts = ({ setSelectedLink, link }) => {
             <Button variant='contained' type= 'submit' 
             sx={ {  marginTop : 8 , borderRadius : 4 }}   >
                 { isAttach ? 'Upload Contact' : 'Save Contact' }
+            
+            
             </Button>
           </Box>
         </form>

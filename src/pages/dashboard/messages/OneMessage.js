@@ -11,7 +11,6 @@ const OneMessage = ({ setSelectedLink, link }) => {
 
     const { state: { currentUser, open, senderName, balance },  dispatch } = useValue();
     const [ inputs, setInput ] = useState({ phonenumber : '',  message : '' });
-    const user = { user: currentUser.email };
 
     useEffect(() => {
         setSelectedLink( link );       
@@ -44,7 +43,7 @@ const OneMessage = ({ setSelectedLink, link }) => {
             updateAlertFunction( dispatch, 'error', UPDATE_ALERT, 'Wrong input, please correct the amount')
           } 
         } catch (err) {
-           updateAlertFunction( dispatch, 'error' , UPDATE_ALERT, err.message);
+            updateAlertFunction( dispatch, 'error' , UPDATE_ALERT, err.message);
         }
         setInput({ phonenumber : '',  message : '' } );
     }
