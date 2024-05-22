@@ -71,9 +71,7 @@ const Contacts = ({ setSelectedLink, link }) => {
             setExcelDisplay([]);  
         } catch (error) {
             updateAlertFunction(dispatch, 'error', UPDATE_ALERT, error.message)   
-            }
-        
-        
+            }    
     }
 
     const columns = [
@@ -269,7 +267,7 @@ const Contacts = ({ setSelectedLink, link }) => {
             sx={ {  marginTop : 8 , borderRadius : 4 }}   >
                 { isAttach ? 'Upload Contact' : 'Save Contact' }
             
-            
+
             </Button>
           </Box>
         </form>
