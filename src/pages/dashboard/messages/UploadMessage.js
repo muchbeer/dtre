@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../upload/upload.css'
 import { useValue } from '../../../context/ContextProvider';
 import Notification from '../../../components/Notification';
@@ -19,6 +19,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
     const { state: { currentUser, senderName, balance },  dispatch } = useValue();
     const [excelDisplay, setExcelDisplay] = useState([]);
     const [sendBtnStatus, setSendBtnStatus] = useState(true);
+    
 
     const user = { user: currentUser };
     useEffect(() => {
@@ -28,7 +29,8 @@ const UploadMessage = ({ setSelectedLink, link }) => {
   
     });
 
-    const [inputs, setInput] = useState({ message : '' });
+    const [inputs, setInput] = useState({ message : ''  });
+    const tagRef = useRef();
     
     const handleInputChange = (event) => {
         event.preventDefault();
@@ -79,6 +81,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
         e.preventDefault();
                 
         const { message } = inputs;
+        const tag = tagRef.current.value;
 
          try {
             const numbers_excel =  excelDisplay.map((value) =>  {
@@ -89,7 +92,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
                 });
             
             
-            const message_object = { phoneNumbers: numbers_excel, sid: senderName,  message: message, user: currentUser }
+            const message_object = { phoneNumbers: numbers_excel, sid: senderName,  message: message, user: currentUser, tag: tag }
      
             const messages_count = numbers_excel.length;
             const messages_cost = 25 * messages_count;
@@ -111,7 +114,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
                
         setSendBtnStatus(true);
         setExcelDisplay([]);
-        setInput({ message : '' });
+        setInput({ message : '' , tag: ''});
               } 
 
             // submit event
@@ -204,12 +207,13 @@ const UploadMessage = ({ setSelectedLink, link }) => {
     >
        <TextField
           sx={{ mr: 5 }}
-          onChange={handleInputChange}
+          onChange={ handleInputChange }
           name='message'
           value={inputs.message}
           id="outlined-multiline-flexible"
           label="Enter the message here"
           variant='outlined'
+          type='text'
           multiline
           rows={4}
           style={{ width: 400}}
@@ -218,6 +222,18 @@ const UploadMessage = ({ setSelectedLink, link }) => {
                     sx={{ mr: 5 }}> Character count : { inputs.message.length } </Typography>
 
         <SenderIdMenu />
+
+        <TextField
+          margin="normal"
+          variant='outlined'
+          id='tag'
+          label='Enter Tag'
+          type='text'
+          inputRef={ tagRef }
+          sx={{ ml: 8 }}
+          name='tag'
+          style={{ width: 230 }}
+        />
     </Box> 
 </div>
         <div className='uploadExcel'>

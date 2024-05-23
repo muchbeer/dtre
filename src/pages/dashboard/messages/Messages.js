@@ -28,8 +28,13 @@ import { DataGrid } from '@mui/x-data-grid';
     align: 'left' },
 
     {  field: "connect_date",  headerName: "Date Sent",  width: 300, headerAlign: 'center' , 
-        align: 'center'},
+        align: 'center' },
     
+    { field: "tag", 
+      headerName: "Tag", width: 180, 
+      headerAlign: 'left',
+      align: 'left' 
+    },
     {
       field: "action",
       headerName: "Action",
@@ -135,7 +140,7 @@ import { DataGrid } from '@mui/x-data-grid';
       <DataGrid
         rows={ messages }
         disableSelectionOnClick
-        columns={columns}
+        columns={ columns }
         initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 20 },

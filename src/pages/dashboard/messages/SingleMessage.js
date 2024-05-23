@@ -16,6 +16,7 @@ const SingleMessage = ({ setSelectedLink, link }) => {
     const [ inputs, setInput ] = useState({ phonenumber : '',  message : '' });
     const [ selectedNumber, setSelectedNumber ] = useState([]);
     const [ checked, setIsChecked ] = useState(false);
+    const [ groupName, setGroupName ] = useState('');
     const user = { user: currentUser.email };
 
     useEffect(() => {
@@ -46,9 +47,10 @@ const SingleMessage = ({ setSelectedLink, link }) => {
           const balanceInt = parseInt(balance.balance);
           //const activeNumber = selectedNumber ? selectedNumber : phonenumber;
           const checkSelectedNumber = checked ? selectedNumber : [selectedNumber] ;
+          const selektGroup = checked ? groupName : 'single'
 
         const message_object = { phoneNumbers: checkSelectedNumber , 
-                                    sid: senderName,  message: message, user: currentUser }
+                                    sid: senderName,  message: message, user: currentUser, tag: selektGroup }
  
         if(  balanceInt > checkSelectedNumber.length * 25 ) { 
             sendBulkSMSApi( message_object, dispatch );
@@ -76,6 +78,7 @@ const SingleMessage = ({ setSelectedLink, link }) => {
     const handleSelection = async(event, value) => {
       if (checked) {
           const data = { user: currentUser.email, group: value?.group }
+          setGroupName(value?.group);
           const groupNumbers = await getSelectedNumbers( data , dispatch );
           const groupNumOnly = groupNumbers.map(number => number.phone_number )
           setSelectedNumber(groupNumOnly);
