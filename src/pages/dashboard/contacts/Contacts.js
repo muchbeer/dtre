@@ -47,6 +47,10 @@ const Contacts = ({ setSelectedLink, link }) => {
 
     const savingContacts = (e) => {
 
+        /*
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => { console.log(i); }, 1000);
+      } */
         e.preventDefault();
 
         const grouping = inputs.group ? inputs.group : ''
@@ -58,7 +62,7 @@ const Contacts = ({ setSelectedLink, link }) => {
                                         };
     
                     return contactObj;
-                })
+                });
                 saveContacts(contacts, dispatch)
                 setIsAttach(false);
             } else {

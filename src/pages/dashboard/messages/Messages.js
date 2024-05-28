@@ -35,6 +35,11 @@ import { DataGrid } from '@mui/x-data-grid';
       headerAlign: 'left',
       align: 'left' 
     },
+    { field: "total_message", 
+    headerName: "All Count", width: 100, 
+    headerAlign: 'left',
+    align: 'left' 
+    },
     {
       field: "action",
       headerName: "Action",
@@ -54,7 +59,8 @@ import { DataGrid } from '@mui/x-data-grid';
   const received_message_columns = [
     { field: "id", headerName: "ID", width: 90 },
     { field: "phone_number", headerName: "Phone Number", width: 120, flex: 1 },
-    {  field: "message_cost",  headerName: "Price",  width: 200, flex: 1 }, 
+    {  field: "message_cost",  headerName: "Price",  width: 200, flex: 1 },
+    {  field: "message_parts", headerName: "Parts", width: 100},
     {  field: "status",  headerName: "Status",  width: 200, flex: 1 }];
 
   
