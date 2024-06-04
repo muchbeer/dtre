@@ -8,7 +8,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import * as Excel from 'xlsx';
 import { sendBulkSMSApi } from '../../../actions/messages';
 import SenderIdMenu from './SenderIdMenu';
-import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
+import { UPDATE_ALERT, countGsmSegments, updateAlertFunction } from '../../../actions/utils/commonConstant';
 import { getBalance } from '../../../actions/balance';
 
 const UploadMessage = ({ setSelectedLink, link }) => {
@@ -95,7 +95,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
             const message_object = { phoneNumbers: numbers_excel, sid: senderName,  message: message, user: currentUser, tag: tag }
      
             const messages_count = numbers_excel.length;
-            const messages_cost = 25 * messages_count;
+            const messages_cost = countGsmSegments(inputs.message) * 25 * messages_count;
             const balanceInt = parseInt(balance.balance);
     
             if(  balanceInt > messages_cost ) { 
@@ -219,7 +219,7 @@ const UploadMessage = ({ setSelectedLink, link }) => {
           style={{ width: 400}}
         />
         <Typography style={{ alignSelf: 'center' }}
-                    sx={{ mr: 5 }}> Character count : { inputs.message.length } </Typography>
+                    sx={{ mr: 5 }}> SMS count : {  countGsmSegments(inputs.message)  } </Typography>
 
         <SenderIdMenu />
 

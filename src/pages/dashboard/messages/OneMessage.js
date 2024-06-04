@@ -5,7 +5,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { useValue } from '../../../context/ContextProvider';
 import SenderIdMenu from './SenderIdMenu';
 import { sendBulkSMSApi } from '../../../actions/messages';
-import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
+import { UPDATE_ALERT, countGsmSegments, updateAlertFunction } from '../../../actions/utils/commonConstant';
 
 const OneMessage = ({ setSelectedLink, link }) => {
 
@@ -34,9 +34,9 @@ const OneMessage = ({ setSelectedLink, link }) => {
 
             const message_object = { phoneNumbers:  [ phonenumber ] , sid: senderName,  message: message, user: currentUser }
  
-        if(  balanceInt > 25 ) { 
+        if(  balanceInt > countGsmSegments(inputs.message) * 25 ) { 
             sendBulkSMSApi( message_object, dispatch );
-          } else if ( 25 > balanceInt) {
+          } else if ( countGsmSegments(inputs.message) * 25 > balanceInt) {
             updateAlertFunction( dispatch, 'error' ,UPDATE_ALERT  , 'You do not have enough balance to send message');  
    
           } else {
@@ -82,9 +82,9 @@ const OneMessage = ({ setSelectedLink, link }) => {
           name='phonenumber'
           value={ inputs.phonenumber }
           id="outlined-multiline-flexible"
-          label="Enter the message here"
+          label="Enter Phone number"
           variant='outlined'
-          style={{ width: 300}}
+          style={{ width: 300 }}
           required
         />
 
@@ -113,7 +113,7 @@ const OneMessage = ({ setSelectedLink, link }) => {
           required
         />
         <Typography style={{ alignSelf: 'center' }}
-                    sx={{ mr: 5 }}> Character count : { inputs.message.length } </Typography>
+                    sx={{ mr: 5 }}> SMS count : { countGsmSegments(inputs.message)  } </Typography>
 
         <SenderIdMenu />
     </Box> 

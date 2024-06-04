@@ -5,7 +5,7 @@ import { Box, Button, TextField, Typography, Switch, FormControlLabel } from '@m
 import { useValue } from '../../../context/ContextProvider';
 import SenderIdMenu from './SenderIdMenu';
 import { sendBulkSMSApi } from '../../../actions/messages';
-import { UPDATE_ALERT, updateAlertFunction } from '../../../actions/utils/commonConstant';
+import { UPDATE_ALERT, countGsmSegments, updateAlertFunction } from '../../../actions/utils/commonConstant';
 import Autocomplete from '@mui/material/Autocomplete';
 import { getSelectedGroups, getSelectedNames, getSelectedNumbers } from '../../../actions/contacts';
 
@@ -52,9 +52,9 @@ const SingleMessage = ({ setSelectedLink, link }) => {
         const message_object = { phoneNumbers: checkSelectedNumber , 
                                     sid: senderName,  message: message, user: currentUser, tag: selektGroup }
  
-        if(  balanceInt > checkSelectedNumber.length * 25 ) { 
+        if(  balanceInt > checkSelectedNumber.length * countGsmSegments(inputs.message) * 25 ) { 
             sendBulkSMSApi( message_object, dispatch );
-          } else if ( 25 > balanceInt) {
+          } else if ( countGsmSegments(inputs.message) * 25 > balanceInt) {
             updateAlertFunction( dispatch, 'error' ,UPDATE_ALERT  , 'You do not have enough balance to send message');  
    
           } else {
@@ -178,7 +178,7 @@ const SingleMessage = ({ setSelectedLink, link }) => {
           required
         />
         <Typography style={{ alignSelf: 'center' }}
-                    sx={{ mr: 5 }}> Character count : { inputs.message.length } </Typography>
+                    sx={{ mr: 5 }}> SMS count : {  countGsmSegments(inputs.message)  } </Typography>
 
         <SenderIdMenu />
     </Box> 
