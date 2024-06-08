@@ -72,6 +72,9 @@ const reducer = (state, action) => {
 
       case 'UPDATE_MESSAGE_RECEIVED':
         return {  ...state, messages_received: action.payload };
+
+      case 'UPDATE_AIRTEL_RETRIEVE':
+        return {  ...state, airtel_money_received: action.payload };
   
       default:
         throw new Error('No matched action!');

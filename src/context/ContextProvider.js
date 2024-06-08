@@ -21,6 +21,7 @@ const initialState = {
     airtimes_received: [], 
     messages: [], 
     messages_received: [],
+    airtel_money_received: []
   };
 
   const Context = createContext(initialState);

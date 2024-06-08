@@ -16,7 +16,8 @@ import { styled, useTheme } from '@mui/material/styles';
 import photoUrl from '../../user.jpg'
 import { Logout, MessageOutlined ,
         ExpandMore,  ExpandLess, PostAddOutlined, DeckOutlined,
-        ContactPhone} from '@mui/icons-material';
+        ContactPhone,
+        MoneyOutlined} from '@mui/icons-material';
 import Main from './main/Main';
 import Airtime from './airtimes/Airtime';
 import Upload from './upload/Upload';
@@ -29,6 +30,7 @@ import ViewContact from './contacts/ViewContact';
 import { blue, grey } from '@mui/material/colors';
 import { getUserSIDs } from '../../actions/messages';
 import OneMessage from './messages/OneMessage';
+import SendMoney from './airtelmoney/SendMoney';
 
 
 const drawerWidth = 240;
@@ -175,7 +177,22 @@ const SideList = ({ open, setOpen }) => {
         ],
         expand: true,
         
-      },
+      }, /*
+      {
+        title: 'Send Money',
+        icon: <MoneyOutlined />,
+        submenu: [
+
+          {
+            title: 'Send Money',
+            link: 'singlemoney', 
+            component: <SendMoney {...{ setSelectedLink, link: 'singlemoney'}} />,
+          },
+      
+        ],
+        expand: true,
+        
+      },  */
     ],
     []
   );
